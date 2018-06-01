@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://hovertree.com/ziyuan/jquery/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<!-- Content -->
+<div class="container">
+
+    <h2 class="page-header">演示</h2>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="control-label col-sm-2">所在区域</label>
+            <div class="form-group">
+
+                <div class="col-sm-3">
+                    <select name="input_province" id="input_province" class="form-control">
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select name="input_city" id="input_city" class="form-control">
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select name="input_area" id="input_area" class="form-control">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./res/pdata.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var html = "<option value=''>== 请选择 ==</option>"; $("#input_city").append(html); $("#input_area").append(html);
+        $.each(pdata,function(idx,item){
+            if (parseInt(item.level) == 0) {
+                html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+            }
+        });
+        $("#input_province").append(html);
+
+        $("#input_province").change(function(){
+            if ($(this).val() == "") return;
+            $("#input_city option").remove(); $("#input_area option").remove();
+            var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,2);
+            var html = "<option value=''>== 请选择 ==</option>"; $("#input_area").append(html);
+            $.each(pdata,function(idx,item){
+                if (parseInt(item.level) == 1 && code == item.code.substring(0,2)) {
+                    html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+                }
+            });
+            $("#input_city").append(html);
+        });
+
+        $("#input_city").change(function(){
+            if ($(this).val() == "") return;
+            $("#input_area option").remove();
+            var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,4);
+            var html = "<option value=''>== 请选择 ==</option>";
+            $.each(pdata,function(idx,item){
+                if (parseInt(item.level) == 2 && code == item.code.substring(0,4)) {
+                    html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+                }
+            });
+            $("#input_area").append(html);
+        });
+        //绑定
+        $("#input_province").val("湖北省");$("#input_province").change();
+        $("#input_city").val("武汉市");$("#input_city").change();
+        $("#input_area").val("洪山区");
+
+    });
+</script>
+
+</body>
+</html>

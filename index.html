@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link href="./css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="./css/bootstrapValidator.min.css" rel="stylesheet">
+
+    <script src="./js/bootstrap-datepicker.min.js"></script>
+    <script src="./js/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="./js/bootstrapValidator.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#defaultForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {
+                                message: '名字是必需的，不能为空'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 30,
+                                message: '用户名过长'
+                            }
+                        }
+                    },
+                    // sex:{
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '性别是必需的，不能为空'
+                    //         }
+                    //     }
+                    // },
+                    // phonenum: {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '手机号是必需的，不能为空'
+                    //         }
+                    //     }
+                    // },
+                    // email: {
+                    //     message: 'The username is not valid',
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '邮箱是必需的，不能为空'
+                    //         },
+                    //         emailAddress: {
+                    //             message: '请输入正确的邮箱地址'
+                    //         }
+                    //     }
+                    // },
+                    // input_province: {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '该选项是必需的，不能为空'
+                    //         }
+                    //     }
+                    // },
+                    // input_city: {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '该选项是必需的，不能为空'
+                    //         }
+                    //     }
+                    // },
+                    // input_area: {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '该选项是必需的，不能为空'
+                    //         }
+                    //     }
+                    // },
+                }
+            })
+            .on('success.form.bv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Get the BootstrapValidator instance
+                var bv = $form.data('bootstrapValidator');
+
+                alert($form.serialize())
+                // Use Ajax to submit form data
+                $.post($form.attr('action'), $form.serialize(), function(result) {
+                    console.log(result);
+                }, 'json');
+            });
+        });
+    </script>
+</head>
+<body class="bg-warning">
+<div class="container bg-success">
+    <div class="page-header">
+        <h1>国家数字化学习技术工程中心</h1>
+    </div>
+    <form id="defaultForm" action="city.html">
+        <div class="form-group">
+            <label for="InputName">姓名</label>
+            <input type="text" class="form-control" id="InputName" name="name" placeholder="请填写姓名">
+        </div>
+
+        <label>性别</label>
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" name="sex" id="inlineRadio1" value="男"> 男
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="sex" id="inlineRadio2" value="女"> 女
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="InputPhone">手机号</label>
+            <input type="tel" class="form-control" id="InputPhone" name="phonenum" placeholder="请填写">
+        </div>
+
+        <div class="form-group">
+            <label for="InputCardID">身份证号</label>
+            <input type="text" class="form-control" id="InputCardID" name="cardid" placeholder="请填写">
+        </div>
+
+        <div class="form-group">
+            <label for="InputEmail">邮箱</label>
+            <input type="text" class="form-control" id="InputEmail" name="email" placeholder="请填写">
+        </div>
+
+        <div class="form-group">
+            <label>家庭住址</label>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <select name="input_province" id="input_province" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select name="input_city" id="input_city" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select name="input_area" id="input_area" class="form-control">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <label class="sr-only" for="detailAddress">详细地址</label>
+                        <input type="text" class="form-control" id="detailAddress" placeholder="详细地址">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="InputSchool">就读院校</label>
+            <input type="text" class="form-control" id="InputSchool" placeholder="请填写">
+        </div>
+
+        <div class="form-group">
+            <label for="InputMajor">就读专业</label>
+            <input type="text" class="form-control" id="InputMajor" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputPolitics">政治面貌</label>
+            <input type="text" class="form-control" id="InputPolitics" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputPlanMajor">拟报考专业</label>
+            <input type="text" class="form-control" id="InputPlanMajor" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputNation">民族</label>
+            <input type="text" class="form-control" id="InputNation" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputBirthday">出生日期</label>
+            <input type="text" class="form-control datepicker" id="InputBirthday" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputDuty">担任职务</label>
+            <input type="text" class="form-control " id="InputDuty" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputCET">英语水平</label>
+            <input type="text" class="form-control" id="InputCET" placeholder="请填写">
+            <!--<select class="form-control" id="InputCET" name="CET">-->
+                <!--<option value="">== 请选择 ==</option>-->
+                <!--<option value="4">四级</option>-->
+                <!--<option value="6">六级</option>-->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="InputClassRank">所在班级排名（名次/总人数）</label>
+            <input type="text" class="form-control" id="InputClassRank" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="InputMajorRank">所在年级专业排名（名次/总人数）</label>
+            <input type="text" class="form-control" id="InputMajorRank" placeholder="请填写">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputFile">申请表上传</label>
+            <input type="file" id="exampleInputFile">
+            <p class="help-block">限制文件大小5MB以内。</p>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-3">
+                    <button type="submit" class="btn btn-success btn-block">提交</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-info btn-block">预览</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="./res/pdata.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var html = "<option value=''>== 请选择 ==</option>"; $("#input_city").append(html); $("#input_area").append(html);
+        $.each(pdata,function(idx,item){
+            if (parseInt(item.level) == 0) {
+                html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+            }
+        });
+        $("#input_province").append(html);
+
+        $("#input_province").change(function(){
+            if ($(this).val() == "") return;
+            $("#input_city option").remove(); $("#input_area option").remove();
+            var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,2);
+            var html = "<option value=''>== 请选择 ==</option>"; $("#input_area").append(html);
+            $.each(pdata,function(idx,item){
+                if (parseInt(item.level) == 1 && code == item.code.substring(0,2)) {
+                    html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+                }
+            });
+            $("#input_city").append(html);
+        });
+
+        $("#input_city").change(function(){
+            if ($(this).val() == "") return;
+            $("#input_area option").remove();
+            var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,4);
+            var html = "<option value=''>== 请选择 ==</option>";
+            $.each(pdata,function(idx,item){
+                if (parseInt(item.level) == 2 && code == item.code.substring(0,4)) {
+                    html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+                }
+            });
+            $("#input_area").append(html);
+        });
+        //绑定
+        $("#input_province").val("");//$("#input_province").change();
+        $("#input_city").val("");//$("#input_city").change();
+        $("#input_area").val("");//$("#input_area").change();
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#InputBirthday").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+        });
+    })
+</script>
+</body>
+</html>
